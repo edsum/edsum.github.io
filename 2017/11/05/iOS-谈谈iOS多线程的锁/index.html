@@ -103,13 +103,14 @@
 
 
 
-<meta name="description" content="前言iOS开发中由于各种第三方库的高度封装，对锁的使用很少，刚好之前面试中被问到的关于并发编程锁的问题，都是一知半解，于是决定整理一下关于iOS中锁的知识，为大家查缺补漏。 目录第一部分： 什么是锁第二部分： 锁的分类第三部分： 性能对比第四部分： 常见的死锁第五部分： 总结正文一、什么是锁在过去几十年并发研究领域的出版物中，锁总是扮演着坏人的角色，锁背负的指控包括引起死锁、锁封护（luyang注">
+<meta name="description" content="前言iOS开发中由于各种第三方库的高度封装，对锁的使用很少，刚好之前面试中被问到的关于并发编程锁的问题，都是一知半解，于是决定整理一下关于iOS中锁的知识，为大家查缺补漏。 目录第一部分： 什么是锁第二部分： 锁的分类第三部分： 性能对比第四部分： 常见的死锁第五部分： 总结正文一、什么是锁在过去几十年并发研究领域的出版物中，锁总是扮演着坏人的角色，锁背负的指控包括引起死锁、锁封护（luyang">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[iOS] 谈谈iOS多线程的锁 ">
 <meta property="og:url" content="http://yoursite.com/2017/11/05/iOS-谈谈iOS多线程的锁/index.html">
 <meta property="og:site_name" content="喵渣渣の后花园">
-<meta property="og:description" content="前言iOS开发中由于各种第三方库的高度封装，对锁的使用很少，刚好之前面试中被问到的关于并发编程锁的问题，都是一知半解，于是决定整理一下关于iOS中锁的知识，为大家查缺补漏。 目录第一部分： 什么是锁第二部分： 锁的分类第三部分： 性能对比第四部分： 常见的死锁第五部分： 总结正文一、什么是锁在过去几十年并发研究领域的出版物中，锁总是扮演着坏人的角色，锁背负的指控包括引起死锁、锁封护（luyang注">
+<meta property="og:description" content="前言iOS开发中由于各种第三方库的高度封装，对锁的使用很少，刚好之前面试中被问到的关于并发编程锁的问题，都是一知半解，于是决定整理一下关于iOS中锁的知识，为大家查缺补漏。 目录第一部分： 什么是锁第二部分： 锁的分类第三部分： 性能对比第四部分： 常见的死锁第五部分： 总结正文一、什么是锁在过去几十年并发研究领域的出版物中，锁总是扮演着坏人的角色，锁背负的指控包括引起死锁、锁封护（luyang">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3178216-d9ca6f03933b11db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://img.blog.csdn.net/20150726170216381">
 <meta property="og:image" content="http://cc.cocimg.com/api/uploads/20160129/1454031867325687.png">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1024259-9363902b817ceba0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -120,11 +121,11 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/0064cTs2jw1ewev3p5j6pj30sg0iggpc.jpg">
 <meta property="og:image" content="http://ww4.sinaimg.cn/mw690/0064cTs2jw1ewev3pjumnj30sg0mgwir.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/0064cTs2jw1ewev3q5d5ej30sg0jl0w1.jpg">
-<meta property="og:updated_time" content="2017-11-05T12:59:53.000Z">
+<meta property="og:updated_time" content="2017-11-05T13:40:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[iOS] 谈谈iOS多线程的锁 ">
-<meta name="twitter:description" content="前言iOS开发中由于各种第三方库的高度封装，对锁的使用很少，刚好之前面试中被问到的关于并发编程锁的问题，都是一知半解，于是决定整理一下关于iOS中锁的知识，为大家查缺补漏。 目录第一部分： 什么是锁第二部分： 锁的分类第三部分： 性能对比第四部分： 常见的死锁第五部分： 总结正文一、什么是锁在过去几十年并发研究领域的出版物中，锁总是扮演着坏人的角色，锁背负的指控包括引起死锁、锁封护（luyang注">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20150726170216381">
+<meta name="twitter:description" content="前言iOS开发中由于各种第三方库的高度封装，对锁的使用很少，刚好之前面试中被问到的关于并发编程锁的问题，都是一知半解，于是决定整理一下关于iOS中锁的知识，为大家查缺补漏。 目录第一部分： 什么是锁第二部分： 锁的分类第三部分： 性能对比第四部分： 常见的死锁第五部分： 总结正文一、什么是锁在过去几十年并发研究领域的出版物中，锁总是扮演着坏人的角色，锁背负的指控包括引起死锁、锁封护（luyang">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3178216-d9ca6f03933b11db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -372,7 +373,8 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>iOS开发中由于各种第三方库的高度封装，对锁的使用很少，刚好之前面试中被问到的关于并发编程锁的问题，都是一知半解，于是决定整理一下关于iOS中锁的知识，为大家查缺补漏。</p>
+        <p><img src="http://upload-images.jianshu.io/upload_images/3178216-d9ca6f03933b11db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="五花八门的锁"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>iOS开发中由于各种第三方库的高度封装，对锁的使用很少，刚好之前面试中被问到的关于并发编程锁的问题，都是一知半解，于是决定整理一下关于iOS中锁的知识，为大家查缺补漏。</p>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><h3 id="第一部分：-什么是锁"><a href="#第一部分：-什么是锁" class="headerlink" title="第一部分： 什么是锁"></a>第一部分： 什么是锁</h3><h3 id="第二部分：-锁的分类"><a href="#第二部分：-锁的分类" class="headerlink" title="第二部分： 锁的分类"></a>第二部分： 锁的分类</h3><h3 id="第三部分：-性能对比"><a href="#第三部分：-性能对比" class="headerlink" title="第三部分： 性能对比"></a>第三部分： 性能对比</h3><h3 id="第四部分：-常见的死锁"><a href="#第四部分：-常见的死锁" class="headerlink" title="第四部分： 常见的死锁"></a>第四部分： 常见的死锁</h3><h3 id="第五部分：-总结"><a href="#第五部分：-总结" class="headerlink" title="第五部分： 总结"></a>第五部分： 总结</h3><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="一、什么是锁"><a href="#一、什么是锁" class="headerlink" title="一、什么是锁"></a>一、什么是锁</h3><p>在过去几十年并发研究领域的出版物中，锁总是扮演着坏人的角色，锁背负的指控包括引起死锁、锁封护（luyang注：lock convoying，多个同优先级的线程重复竞争同一把锁，此时大量虽然被唤醒而得不到锁的线程被迫进行调度切换，这种频繁的调度切换相当影响系统性能）、饥饿、不公平、data races以及其他许多并发带来的罪孽。有趣的是，在共享内存并行软件中真正承担重担的是——你猜对了——锁。</p>
 <p>在计算机科学中，锁是一种同步机制，用于多线程环境中对资源访问的限制。你可以理解成它用于排除并发的一种策略。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (lock == 0) &#123;</div><div class="line">lock = myPID;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
